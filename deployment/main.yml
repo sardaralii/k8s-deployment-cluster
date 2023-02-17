@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: furqan
+  template:
+    metadata:
+      labels:
+        app: furqan
+    spec:
+      containers:
+        - name: furqans
+          image: furqan1111/deploy
+          ports:
+            - containerPort: 3001
+          command: [ "npm", "start" ]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-deployment
+spec:
+  selector:
+    app: furqan
+  type: LoadBalancer  
+  ports:
+    - protocol: TCP
+      port: 3001
+      targetPort: 3001
+      nodePort: 30002
